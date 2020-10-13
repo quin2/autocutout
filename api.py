@@ -89,8 +89,8 @@ async def create_upload_file(file: UploadFile = File(...)):
     #run our image through autoTrace!
     #change this to work on server!
     #if on macOS:
-    svgString = os.popen("./autotrace.app/Contents/MacOS/autotrace -output-format=svg %s" % (tBitmap)).read()
- #   svgString = os.popen("autotrace -output-format=svg %s" % (tBitmap)).read()
+   # svgString = os.popen("./autotrace.app/Contents/MacOS/autotrace -output-format=svg %s" % (tBitmap)).read()
+    svgString = os.popen("autotrace -output-format=svg %s" % (tBitmap)).read()
 
     #repair SVG
     xmldoc = minidom.parseString(svgString)
