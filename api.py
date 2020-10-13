@@ -17,6 +17,12 @@ import tempfile
 
 from fastapi import FastAPI, File, UploadFile
 
+from concurrent.futures import ThreadPoolExecutor
+import asyncio
+
+loop = asyncio.get_running_loop()
+loop.set_default_executor(ThreadPoolExecutor(max_workers=5))
+
 app = FastAPI()
 
 @app.post("/v1/matisse/")
