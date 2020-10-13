@@ -17,13 +17,11 @@ import tempfile
 
 from fastapi import FastAPI, File, UploadFile
 
-from concurrent.futures import ThreadPoolExecutor
-import asyncio
-
-loop = asyncio.get_running_loop()
-loop.set_default_executor(ThreadPoolExecutor(max_workers=5))
-
 app = FastAPI()
+
+@app.on_event("startup")
+async def startup_event():
+    gluoncv.model_zoo.get_model('psp_resnet101_ade', pretrained=True)
 
 @app.post("/v1/matisse/")
 async def create_upload_file(file: UploadFile = File(...)):
@@ -91,8 +89,8 @@ async def create_upload_file(file: UploadFile = File(...)):
     #run our image through autoTrace!
     #change this to work on server!
     #if on macOS:
-    #svgString = os.popen("./autotrace.app/Contents/MacOS/autotrace -output-format=svg %s" % (tBitmap)).read()
-    svgString = os.popen("autotrace -output-format=svg %s" % (tBitmap)).read()
+    svgString = os.popen("./autotrace.app/Contents/MacOS/autotrace -output-format=svg %s" % (tBitmap)).read()
+ #   svgString = os.popen("autotrace -output-format=svg %s" % (tBitmap)).read()
 
     #repair SVG
     xmldoc = minidom.parseString(svgString)
