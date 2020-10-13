@@ -8,3 +8,4 @@ uvicorn==0.12.1
 gunicorn==19.9.0
 python-multipart==0.0.5
 uvloop==0.14.0
+httptools==0.1.1
