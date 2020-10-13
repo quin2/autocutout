@@ -21,7 +21,7 @@ app = FastAPI()
 
 @app.on_event("startup")
 async def startup_event():
-    gluoncv.model_zoo.get_model('psp_resnet101_ade', pretrained=True)
+    gluoncv.model_zoo.get_model('psp_resnet50_ade', pretrained=True)
 
 @app.post("/v1/matisse/")
 async def create_upload_file(file: UploadFile = File(...)):
