@@ -29,7 +29,7 @@ async def startup_event():
 """
 
 @app.post("/v1/matisse/")
-def create_upload_file(file: UploadFile = File(...)):
+async def create_upload_file(file: UploadFile = File(...)):
     content = await file.read()
     nparr = np.fromstring(content, np.uint8)
     img = image.imdecode(nparr)
