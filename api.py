@@ -19,9 +19,12 @@ from fastapi import FastAPI, File, UploadFile
 
 app = FastAPI()
 
+#just copy files we already have here to mxnet directory!!!
 @app.on_event("startup")
 async def startup_event():
-    gluoncv.model_zoo.get_model('psp_resnet50_ade', pretrained=True)
+    os.system("cp -R models ~/.mxnet/models")
+    print("success: moved data")
+    return
 
 @app.post("/v1/matisse/")
 async def create_upload_file(file: UploadFile = File(...)):
@@ -44,7 +47,7 @@ async def create_upload_file(file: UploadFile = File(...)):
     img = test_transform(img, ctx)
 
     #get pretrained model
-    model = gluoncv.model_zoo.get_model('psp_resnet50_ade', pretrained=True)
+    model = gluoncv.model_zoo.get_model('psp_resnet101_ade', pretrained=True)
 
     #run predict
     output = model.predict(img)
@@ -89,7 +92,7 @@ async def create_upload_file(file: UploadFile = File(...)):
     #run our image through autoTrace!
     #change this to work on server!
     #if on macOS:
-   # svgString = os.popen("./autotrace.app/Contents/MacOS/autotrace -output-format=svg %s" % (tBitmap)).read()
+    #svgString = os.popen("./autotrace.app/Contents/MacOS/autotrace -output-format=svg %s" % (tBitmap)).read()
     svgString = os.popen("autotrace -output-format=svg %s" % (tBitmap)).read()
 
     #repair SVG
