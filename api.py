@@ -29,7 +29,7 @@ async def startup_event():
 """
 
 @app.post("/v1/matisse/")
-async def create_upload_file(file: UploadFile = File(...)):
+def create_upload_file(file: UploadFile = File(...)):
     content = await file.read()
     nparr = np.fromstring(content, np.uint8)
     img = image.imdecode(nparr)
@@ -96,6 +96,8 @@ async def create_upload_file(file: UploadFile = File(...)):
     #if on macOS:
     #svgString = os.popen("./autotrace.app/Contents/MacOS/autotrace -output-format=svg %s" % (tBitmap)).read()
     svgString = os.popen("autotrace -output-format=svg %s" % (tBitmap)).read()
+
+    print(svgString)
 
     #repair SVG
     xmldoc = minidom.parseString(svgString)
