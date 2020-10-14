@@ -47,7 +47,7 @@ async def create_upload_file(file: UploadFile = File(...)):
     img = test_transform(img, ctx)
 
     #get pretrained model
-    model = gluoncv.model_zoo.get_model('psp_resnet101_ade', pretrained=True)
+    model = gluoncv.model_zoo.get_model('psp_resnet50_ade', pretrained=True)
 
     #run predict
     output = model.predict(img)
