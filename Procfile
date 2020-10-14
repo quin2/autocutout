@@ -1,1 +1,1 @@
-web: uvicorn --port 5000 --host 127.0.0.1 api:app --reload
+web: uvicorn api:app --host=0.0.0.0 --port=${PORT:-5000}
