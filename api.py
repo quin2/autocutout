@@ -20,11 +20,13 @@ from fastapi import FastAPI, File, UploadFile
 app = FastAPI()
 
 #just copy files we already have here to mxnet directory!!!
+"""
 @app.on_event("startup")
 async def startup_event():
     os.system("cp -R models ~/.mxnet/models")
     print("success: moved data")
     return
+"""
 
 @app.post("/v1/matisse/")
 async def create_upload_file(file: UploadFile = File(...)):
