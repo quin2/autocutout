@@ -20,9 +20,13 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
+origins = [
+    "https://right-catnip-tamarillo.glitch.me",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origin_regex='https?://.*',
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
