@@ -30,7 +30,8 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["POST", "GET"]
+    allow_methods=["POST", "GET"],
+    allow_headers=["*"]
 )
 
 #just copy files we already have here to mxnet directory!!!
