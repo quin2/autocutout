@@ -1,8 +1,0 @@
-Must:
-run jupyter notebook...
-
-./autotrace.app/Contents/MacOS/autotrace -output-file=hello2.svg -output-format=svg in.bmp
-
-python3 fix.py
-
-outp is in hello2.svg
