@@ -22,6 +22,8 @@ app = FastAPI()
 
 origins = [
     "https://right-catnip-tamarillo.glitch.me",
+    "https://quin2-autocutout.zeet.app/",
+    "0.0.0.0:80"
 ]
 
 app.add_middleware(
