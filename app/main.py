@@ -15,33 +15,22 @@ from xml.dom import minidom
 import sys
 import tempfile
 
-from fastapi import FastAPI, File, UploadFile
-from fastapi.middleware.cors import CORSMiddleware
+import json
+from flask import Flask, jsonify, Response, request, current_app
+from flask_cors import CORS, cross_origin
 
-app = FastAPI()
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origin_regex='https?://.*',
-    allow_credentials=True
-    allow_methods=["DELETE", "GET", "POST", "PUT"],
-    allow_headers=["*"]
-)
+app = Flask(__name__)
+CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
-#just copy files we already have here to mxnet directory!!!
-"""
-@app.on_event("startup")
-async def startup_event():
-    os.system("cp -R models ~/.mxnet/models")
-    print("success: moved data")
-    return
-"""
 
-@app.post("/v1/matisse/")
-async def create_upload_file(file: UploadFile = File(...)):
-    content = await file.read()
-    nparr = np.fromstring(content, np.uint8)
-    img = image.imdecode(nparr)
+@app.route('/v1/matisse', methods=['POST'])
+@cross_origin()
+def create_upload_file(): # fic
+    data = request.files['file']
+    npimg = np.fromfile(data, np.uint8)
+    img = image.imdecode(npimg)
 
     #resize image we got
     (h, w) = img.shape[:2]
@@ -116,4 +105,7 @@ async def create_upload_file(file: UploadFile = File(...)):
 
     #return SVG content
     svgString = xmldoc.toxml()
-    return {"svg": svgString}
+    return jsonify (svg=svgString,)
+
+if __name__ == '__main__':
+    app.run(host="0.0.0.0", debug=True, port=80)
