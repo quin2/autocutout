@@ -15,22 +15,36 @@ from xml.dom import minidom
 import sys
 import tempfile
 
-import json
-from flask import Flask, jsonify, Response, request, current_app
-from flask_cors import CORS, cross_origin
+from fastapi import FastAPI, File, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
+app = FastAPI()
 
-app = Flask(__name__)
-CORS(app, headers='Content-Type')
-app.config['CORS_HEADERS'] = 'Content-Type'
+app.add_middleware(
+    CORSMiddleware,
+    allow_origin_regex='https?://.*',
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
+#just copy files we already have here to mxnet directory!!!
+"""
+@app.on_event("startup")
+async def startup_event():
+    os.system("cp -R models ~/.mxnet/models")
+    print("success: moved data")
+    return
+"""
 
-@app.route('/v1/matisse', methods=['POST'])
-@cross_origin()
-def create_upload_file(): # fic
-    data = request.files['file']
-    npimg = np.fromfile(data, np.uint8)
-    img = image.imdecode(npimg)
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+@app.post("/v1/matisse/")
+async def create_upload_file(file: UploadFile = File(...)):
+    content = await file.read()
+    nparr = np.fromstring(content, np.uint8)
+    img = image.imdecode(nparr)
 
     #resize image we got
     (h, w) = img.shape[:2]

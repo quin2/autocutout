@@ -2,6 +2,8 @@ FROM tiangolo/uvicorn-gunicorn-fastapi:python3.7
 
 COPY ./app /app
 
+COPY ./app/static /static
+
 RUN pip install -r /app/requirements.txt
 
 RUN apt update -y

@@ -4,5 +4,8 @@ gluoncv==0.8.0
 numpy==1.19.2
 Pillow==7.2.0
 gunicorn==19.9.0
-flask==1.0.2
-flask-cors==3.0.8
+python-multipart==0.0.5
+uvloop==0.14.0
+httptools==0.1.1
+aiofiles==0.6.0
+
