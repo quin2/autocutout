@@ -119,4 +119,7 @@ async def create_upload_file(file: UploadFile = File(...)):
 
     #return SVG content
     svgString = xmldoc.toxml()
-    return {"svg": svgString}
+    return jsonify (svg=svgString,)
+
+if __name__ == '__main__':
+    app.run(host="0.0.0.0", debug=True, port=80)
