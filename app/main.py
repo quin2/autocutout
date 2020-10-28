@@ -17,6 +17,7 @@ import tempfile
 
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 
@@ -36,6 +37,8 @@ async def startup_event():
     print("success: moved data")
     return
 """
+
+app.mount("/matisse", StaticFiles(directory="static"), name="static")
 
 @app.post("/v1/matisse/")
 async def create_upload_file(file: UploadFile = File(...)):
