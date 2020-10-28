@@ -12,11 +12,9 @@ function mySubmitFunction(e) {
   let formData = new FormData();
   
   formData.append("file", photo);
-  fetch('http://127.0.0.1/v1/matisse', {
-    mode: "cors",
+  fetch('../v1/matisse/', {
     body: formData,
     method: "POST",
-    cache: "no-cache",
     
   }).then(response => response.json())
     .then(data => {

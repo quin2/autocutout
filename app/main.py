@@ -24,8 +24,8 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origin_regex='https?://.*',
-    allow_credentials=True
-    allow_methods=["DELETE", "GET", "POST", "PUT"],
+    allow_credentials=True,
+    allow_methods=["*"],
     allow_headers=["*"]
 )
 
@@ -38,7 +38,7 @@ async def startup_event():
     return
 """
 
-app.mount("/matisse", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.post("/v1/matisse/")
 async def create_upload_file(file: UploadFile = File(...)):
