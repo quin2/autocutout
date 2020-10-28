@@ -16,8 +16,18 @@ import sys
 import tempfile
 
 from fastapi import FastAPI, File, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origin_regex='https?://.*',
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
 #just copy files we already have here to mxnet directory!!!
 """
@@ -27,6 +37,8 @@ async def startup_event():
     print("success: moved data")
     return
 """
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.post("/v1/matisse/")
 async def create_upload_file(file: UploadFile = File(...)):

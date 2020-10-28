@@ -2,11 +2,11 @@ FROM tiangolo/uvicorn-gunicorn-fastapi:python3.7
 
 COPY ./app /app
 
-RUN pip install -r app/requirements.txt
+COPY ./app/static /static
 
-RUN wget https://github.com/autotrace/autotrace/releases/download/travis-20200219.65/autotrace_0.40.0-20200219_all.deb -O autotrace_0.40.0-20200219_all.deb
+RUN pip install -r /app/requirements.txt
 
-RUN dpkg -i autotrace_0.40.0-20200219_all.deb
+RUN apt update -y
+RUN apt install intltool imagemagick libmagickcore-dev pstoedit libpstoedit-dev autopoint -y
 
-RUN apt-get install -y -f
-
+RUN git clone https://github.com/autotrace/autotrace.git && cd autotrace && ./autogen.sh && LD_LIBRARY_PATH=/usr/local/lib ./configure --prefix=/usr && make && make install
